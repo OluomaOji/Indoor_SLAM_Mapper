@@ -39,7 +39,7 @@ indoor_slam_mapper/
 |-- README.md                     # This file
 
 ## Development Phases
-Phase 1: Camera Feed Acquisition
+#### Phase 1: Camera Feed Acquisition
 Goal: Establish reliable video input and camera calibration
 Components:
 
@@ -51,7 +51,7 @@ Real-time display
 Deliverable: Working camera feed with calibrated intrinsics
 Test: Display live camera feed with calibration overlay
 
-Phase 2: Feature Detection
+#### Phase 2: Feature Detection
 Goal: Detect and track visual features in frames
 Components:
 
@@ -63,7 +63,7 @@ Multi-scale detection
 Deliverable: Real-time feature detection display
 Test: Detect 500+ features per frame with good distribution
 
-Phase 3: Feature Matching
+#### Phase 3: Feature Matching
 Goal: Establish correspondences between consecutive frames
 Components:
 
@@ -75,7 +75,7 @@ Temporal consistency checking
 Deliverable: Robust feature tracking across frames
 Test: Maintain 200+ matches with <5% outliers
 
-Phase 4: Pose Estimation
+#### Phase 4: Pose Estimation
 Goal: Estimate camera motion from feature matches
 Components:
 
@@ -87,7 +87,7 @@ Trajectory visualization
 Deliverable: 2D trajectory plot of camera motion
 Test: Smooth trajectory with correct motion direction
 
-Phase 5: 3D Point Cloud Mapping
+#### Phase 5: 3D Point Cloud Mapping
 Goal: Build sparse 3D map of environment
 Components:
 
@@ -99,7 +99,7 @@ Map point management
 Deliverable: Interactive 3D point cloud
 Test: Recognizable room structure in point cloud
 
-Phase 6: Loop Closure Detection
+#### Phase 6: Loop Closure Detection
 Goal: Detect revisited locations and correct drift
 Components:
 
