@@ -5,23 +5,14 @@ This project implements a complete visual perception pipeline for simultaneous l
 ## Directory Structure
 indoor_slam_mapper/
 |--- src/
-│   |-- phase1_camera.cpp          # Phase 1: Camera acquisition & calibration **in progress**
-│   |-- phase2_features.cpp        # Phase 2: Feature detection & extraction **in progress**
-│   |-- phase3_matching.cpp        # Phase 3: Feature matching between frames **in progress**
-│   |-- phase4_pose.cpp            # Phase 4: Pose estimation & tracking **in progress**
-│   |-- phase5_mapping.cpp         # Phase 5: 3D point cloud mapping **in progress**
-│   |-- phase6_loop_closure.cpp    # Phase 6: Loop closure detection **in progress**
-│   |-- slam_system.cpp           # Complete integrated system **in progress**
-│   |-- utils.cpp                  # Shared utility functions **in progress**
-|--- include/
-│   |-- camera.hpp
-│   |-- features.hpp
-│   |-- matcher.hpp
-│   |-- pose_estimator.hpp
-│   |-- mapper.hpp
-│   |-- loop_closure.hpp
-│   |-- slam_system.hpp
-│   |-- utils.hpp
+│   |-- phase1_camera.py          # Phase 1: Camera acquisition & calibration **in progress**
+│   |-- phase2_features.py        # Phase 2: Feature detection & extraction **in progress**
+│   |-- phase3_matching.py        # Phase 3: Feature matching between frames **in progress**
+│   |-- phase4_pose.py            # Phase 4: Pose estimation & tracking **in progress**
+│   |-- phase5_mapping.py         # Phase 5: 3D point cloud mapping **in progress**
+│   |-- phase6_loop_closure.py    # Phase 6: Loop closure detection **in progress**
+│   |-- slam_system.py            # Complete integrated system **in progress**
+│   |-- utils.py                  # Shared utility functions **in progress**
 |--- config/
 │   |-- camera_params.yaml        # Camera calibration parameters
 │   |-- slam_config.yaml          # SLAM system configuration
@@ -39,7 +30,7 @@ indoor_slam_mapper/
 |-- README.md                     # This file
 
 ## Development Phases
-#### Phase 1: Camera Feed Acquisition
+### Phase 1: Camera Feed Acquisition
 Goal: Establish reliable video input and camera calibration
 Components:
 
@@ -51,7 +42,7 @@ Real-time display
 Deliverable: Working camera feed with calibrated intrinsics
 Test: Display live camera feed with calibration overlay
 
-#### Phase 2: Feature Detection
+### Phase 2: Feature Detection
 Goal: Detect and track visual features in frames
 Components:
 
@@ -63,7 +54,7 @@ Multi-scale detection
 Deliverable: Real-time feature detection display
 Test: Detect 500+ features per frame with good distribution
 
-#### Phase 3: Feature Matching
+### Phase 3: Feature Matching
 Goal: Establish correspondences between consecutive frames
 Components:
 
@@ -75,7 +66,7 @@ Temporal consistency checking
 Deliverable: Robust feature tracking across frames
 Test: Maintain 200+ matches with <5% outliers
 
-#### Phase 4: Pose Estimation
+### Phase 4: Pose Estimation
 Goal: Estimate camera motion from feature matches
 Components:
 
@@ -87,7 +78,7 @@ Trajectory visualization
 Deliverable: 2D trajectory plot of camera motion
 Test: Smooth trajectory with correct motion direction
 
-#### Phase 5: 3D Point Cloud Mapping
+### Phase 5: 3D Point Cloud Mapping
 Goal: Build sparse 3D map of environment
 Components:
 
@@ -99,7 +90,7 @@ Map point management
 Deliverable: Interactive 3D point cloud
 Test: Recognizable room structure in point cloud
 
-#### Phase 6: Loop Closure Detection
+### Phase 6: Loop Closure Detection
 Goal: Detect revisited locations and correct drift
 Components:
 
