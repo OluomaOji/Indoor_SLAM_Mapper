@@ -1,0 +1,49 @@
+# Default SLAM Configuration
+
+# Camera Settings
+camera:
+  source: 0  # 0 for webcam, or path to video file
+  width: 640
+  height: 480
+  fps: 30
+  
+  # Camera intrinsics
+  fx: 500.0  # Focal length x
+  fy: 500.0  # Focal length y
+  cx: 320.0  # Principal point x
+  cy: 240.0  # Principal point y
+  
+  # Distortion coefficients [k1, k2, p1, p2, k3]
+  distortion: [0.0, 0.0, 0.0, 0.0, 0.0]
+  
+  calibration_file: "data/calibration/camera_params.yaml"
+
+# SuperPoint Feature Detector Settings
+superpoint:
+  model_path: "models/superpoint_v1.pth"
+  nms_radius: 4
+  keypoint_threshold: 0.005
+  max_keypoints: 1024
+  remove_borders: 4
+  use_cuda: true  # Set to false if no GPU available
+
+# Frame Processing
+frame:
+  buffer_size: 30  # Number of frames to keep in memory
+  resize_scale: 1.0  # Scale factor for processing (1.0 = no resize)
+  
+# Visualization
+visualization:
+  show_features: true
+  feature_color: [0, 255, 0]  # Green in BGR
+  feature_radius: 3
+  window_name: "SLAM - Feature Detection"
+  display_fps: true
+  max_fps: 30  # Limit display FPS to avoid overload
+
+# System
+system:
+  verbose: true
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  save_frames: false
+  output_dir: "data/sequences/recordings"
