@@ -4,100 +4,191 @@ A step-by-step implementation of a monocular Visual SLAM system for indoor mappi
 This project implements a complete visual perception pipeline for simultaneous localization and mapping (SLAM) using a single camera (laptop webcam or smartphone).
 ## Directory Structure
 indoor_slam_mapper/
-|--- src/
-│   |-- phase1_camera.py          # Phase 1: Camera acquisition & calibration **in progress**
-│   |-- phase2_features.py        # Phase 2: Feature detection & extraction **in progress**
-│   |-- phase3_matching.py        # Phase 3: Feature matching between frames **in progress**
-│   |-- phase4_pose.py            # Phase 4: Pose estimation & tracking **in progress**
-│   |-- phase5_mapping.py         # Phase 5: 3D point cloud mapping **in progress**
-│   |-- phase6_loop_closure.py    # Phase 6: Loop closure detection **in progress**
-│   |-- slam_system.py            # Complete integrated system **in progress**
-│   |-- utils.py                  # Shared utility functions **in progress**
-|--- config/
-│   |-- camera_params.yaml        # Camera calibration parameters
-│   |-- slam_config.yaml          # SLAM system configuration
-|--- data/
-│   |-- calibration/              # Camera calibration images
-│   |-- test_videos/              # Test sequences
-|--- tests/
-│   |-- test_phases.py            # Unit tests for each phase
-├── outputs/
-│   |-- trajectories/             # Saved camera trajectories
-│   |-- maps/                     # 3D point cloud maps
-│   |-- visualizations/           # Result visualizations
-├── docs/
-│   └── phase_guides/             # Detailed guide for each phase
-|-- README.md                     # This file
+├── src/
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── camera.py              # Camera feed acquisition
+│   │   ├── frame.py                # Frame data structure
+│   │   └── config.py               # Configuration parameters
+│   │
+│   ├── features/
+│   │   ├── __init__.py
+│   │   ├── superpoint.py           # SuperPoint feature detector
+│   │   ├── superglue.py            # SuperGlue feature matcher
+│   │   └── matcher.py              # Matching utilities
+│   │
+│   ├── localization/
+│   │   ├── __init__.py
+│   │   ├── pose_estimator.py       # Camera pose estimation
+│   │   ├── motion_model.py         # Motion prediction
+│   │   └── optimizer.py            # Pose optimization (g2o/bundle adjustment)
+│   │
+│   ├── mapping/
+│   │   ├── __init__.py
+│   │   ├── point_cloud.py          # 3D point cloud builder
+│   │   ├── map_manager.py          # Global map management
+│   │   └── dense_mapper.py         # Dense mapping utilities
+│   │
+│   ├── loop_closure/
+│   │   ├── __init__.py
+│   │   ├── netvlad.py              # NetVLAD place recognition
+│   │   ├── detector.py             # Loop closure detector
+│   │   └── pose_graph.py           # Pose graph optimization
+│   │
+│   ├── representation/
+│   │   ├── __init__.py
+│   │   ├── gaussian_splatting.py   # 3D Gaussian Splatting
+│   │   └── mesh_builder.py         # Optional mesh generation
+│   │
+│   ├── visualization/
+│   │   ├── __init__.py
+│   │   ├── viewer_2d.py            # 2D trajectory viewer
+│   │   ├── viewer_3d.py            # 3D point cloud viewer
+│   │   └── realtime_display.py     # Real-time visualization
+│   │
+│   └── slam_system.py              # Main SLAM system integration
+│
+├── models/
+│   ├── superpoint_v1.pth           # Pretrained SuperPoint weights
+│   ├── superglue_indoor.pth        # Pretrained SuperGlue weights
+│   └── netvlad_vgg16.pth           # Pretrained NetVLAD weights
+│
+├── data/
+│   ├── calibration/
+│   │   └── camera_params.yaml      # Camera intrinsics
+│   ├── sequences/
+│   │   └── recordings/             # Saved sequences
+│   └── maps/
+│       └── saved_maps/             # Exported maps
+│
+├── configs/
+│   ├── default.yaml                # Default configuration
+│   ├── indoor.yaml                 # Indoor-optimized settings
+│   └── mobile.yaml                 # Mobile device settings
+│
+├── scripts/
+│   ├── calibrate_camera.py         # Camera calibration script
+│   ├── download_models.py          # Download pretrained models
+│   └── run_slam.py                 # Main execution script
+│
+├── tests/
+│   ├── test_features.py
+│   ├── test_pose_estimation.py
+│   └── test_mapping.py
+│
+├── notebooks/
+│   ├── 01_feature_detection_demo.ipynb
+│   ├── 02_pose_estimation_demo.ipynb
+│   └── 03_visualization_demo.ipynb
+│
+├── requirements.txt
+├── setup.py
+└── README.md
 
 ## Development Phases
-### Phase 1: Camera Feed Acquisition
-Goal: Establish reliable video input and camera calibration
-Components:
+#### Phase 1: Foundation & Feature Detection
+Goal: Get camera feed working and detect features in frames
+Tasks:
+##### 1) Set up project structure and dependencies
+##### 2) Implement camera feed acquisition (OpenCV)
+##### 3) Integrate SuperPoint for keypoint detection
+##### 4) Visualize detected features in real-time
+##### 5) Implement frame buffering and preprocessing
 
-Camera interface (webcam/video file)
-Camera calibration routine
-Frame preprocessing
-Real-time display
+Deliverable: Real-time feature detection display showing keypoints on camera feed
 
-Deliverable: Working camera feed with calibrated intrinsics
-Test: Display live camera feed with calibration overlay
+### Phase 2: Feature Matching
+Goal: Match features between consecutive frames
+Tasks:
 
-### Phase 2: Feature Detection
-Goal: Detect and track visual features in frames
-Components:
+Integrate SuperGlue for feature matching
+Implement frame-to-frame matching pipeline
+Add RANSAC for outlier rejection
+Visualize matches between frames
+Optimize matching performance
 
-ORB feature detector implementation
-Feature visualization
-Feature quality metrics
-Multi-scale detection
+Deliverable: Display showing matched features between consecutive frames
 
-Deliverable: Real-time feature detection display
-Test: Detect 500+ features per frame with good distribution
+### Phase 3:Pose Estimation & Tracking
+Goal: Estimate camera motion from matches
+Tasks:
 
-### Phase 3: Feature Matching
-Goal: Establish correspondences between consecutive frames
-Components:
+Implement Essential/Fundamental matrix estimation
+Recover camera rotation and translation
+Add motion model for prediction
+Implement local bundle adjustment
+Track camera trajectory
 
-Brute-force matcher
-RANSAC outlier rejection
-Match visualization
-Temporal consistency checking
+Deliverable: 2D trajectory visualization showing camera path
 
-Deliverable: Robust feature tracking across frames
-Test: Maintain 200+ matches with <5% outliers
+### Phase 4: 3D Mapping - Sparse (Week 4-5)
+Goal: Build sparse 3D point cloud from triangulation
+Tasks:
 
-### Phase 4: Pose Estimation
-Goal: Estimate camera motion from feature matches
-Components:
+Triangulate 3D points from matched features
+Implement keyframe selection strategy
+Build global point cloud map
+Add point filtering (reprojection error, depth bounds)
+Integrate map visualization
 
-Essential matrix computation
-Pose recovery (R, t)
-Scale estimation
-Trajectory visualization
+Deliverable: Live 3D point cloud visualization
 
-Deliverable: 2D trajectory plot of camera motion
-Test: Smooth trajectory with correct motion direction
+### Phase 5 : Loop Closure Detection (Week 5-6)
+Goal: Detect when camera returns to visited locations
+Tasks:
 
-### Phase 5: 3D Point Cloud Mapping
-Goal: Build sparse 3D map of environment
-Components:
+Integrate NetVLAD for place recognition
+Implement loop closure detection logic
+Verify loop closures with geometric verification
+Build pose graph representation
+Implement pose graph optimization (g2o)
 
-Point triangulation
-Bundle adjustment
-Map point management
-3D visualization
+Deliverable: System that detects and corrects drift when revisiting areas
 
-Deliverable: Interactive 3D point cloud
-Test: Recognizable room structure in point cloud
+### Phase 6: Dense Mapping (Week 6-7)
+Goal: Create dense 3D reconstruction
+Tasks:
 
-### Phase 6: Loop Closure Detection
-Goal: Detect revisited locations and correct drift
-Components:
+Implement dense depth estimation
+Add multi-view stereo matching
+Fuse depth maps into dense point cloud
+Optimize dense mapping performance
+Add color to point cloud
 
-Keyframe database
-Place recognition (Bag of Words)
-Loop verification
-Pose graph optimization
+Deliverable: Dense colored point cloud of environment
 
-Deliverable: Drift-corrected mapping
-Test: Detect loop when returning to start position
+#### Phase 7: 3D Gaussian Splatting (Week 7-8)
+Goal: Create high-quality scene representation
+Tasks:
+
+Convert point cloud to Gaussian primitives
+Implement differentiable rendering
+Train Gaussians on captured frames
+Optimize rendering performance
+Enable novel view synthesis
+
+Deliverable: Photorealistic 3D scene reconstruction with novel views
+
+#### Phase 8: Integration & Optimization (Week 8-9)
+Goal: Polish and optimize entire system
+Tasks:
+
+Integrate all components into unified SLAM system
+Optimize for real-time performance
+Add configuration management
+Implement map saving/loading
+Create comprehensive testing suite
+Add error recovery mechanisms
+
+Deliverable: Complete, robust SLAM system
+
+#### Phase 9: Polish & Extensions
+Goal: Add features and improve usability
+Tasks:
+
+Create user-friendly GUI
+Add mobile device support
+Implement map export (PLY, OBJ formats)
+Create demo recordings
+
+Deliverable: Production-ready SLAM application
