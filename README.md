@@ -89,11 +89,11 @@ indoor_slam_mapper/
 #### Phase 1: Foundation & Feature Detection
 Goal: Get camera feed working and detect features in frames
 Tasks:
-##### 1) Set up project structure and dependencies
-##### 2) Implement camera feed acquisition (OpenCV)
-##### 3) Integrate SuperPoint for keypoint detection
-##### 4) Visualize detected features in real-time
-##### 5) Implement frame buffering and preprocessing
+Set up project structure and dependencies
+Implement camera feed acquisition (OpenCV)
+Integrate SuperPoint for keypoint detection
+Visualize detected features in real-time
+Implement frame buffering and preprocessing
 
 Deliverable: Real-time feature detection display showing keypoints on camera feed
 
